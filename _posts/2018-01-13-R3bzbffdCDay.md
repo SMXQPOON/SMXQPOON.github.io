@@ -5,6 +5,4 @@ date:   2018-01-13 16:16:27 -0600
 categories: jekyll update
 ---
 
-this is my first post
- 
- 
+this is my second post
