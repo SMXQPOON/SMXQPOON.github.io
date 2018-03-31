@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>game</title>
+	<style> 
+		/*选择器 ：标签名 ，类 class，id ，派生 */
+		body{
+			/* 属性 ： 值 ；*/
+			color: black;
+            background-color: #FFC107;
+		}
+		.box {
+			width: 662px;
+			height: 662px;
+			/*border: 2px dashed lightblue ;*/
+			font-size: 0px;
+			margin: 30px auto;
+		}
+		/* 选择祖先中有div标签并且class=box-item 的元素 */
+	    div .box-item {
+	    	width: 200px;
+	    	height: 200px;
+	    	line-height: 200px;
+            margin: 10px;
+            display: inline-block;
+            font-size: 50px;
+            text-align: center;
+            background-color: white;
+            box-shadow: 3px 3px 10px 2px rgba(0,0,0,0.3);   
+	    }
+
+	</style>
+</head>
+<body>
+	<button onclick="startGame();">start</button>
+	<button onclick="change78();">7跟8换位置</button>
+	<div class="box">
+		<div id="boxitem1" class="box-item" onclick="check(1)">1</div>
+		<div id="boxitem2" class="box-item" onclick="check(2)">2</div>
+		<div id="boxitem3" class="box-item" onclick="check(3)">3</div>
+		<div id="boxitem4" class="box-item" onclick="check(4)">4</div>
+		<div id="boxitem5" class="box-item" onclick="check(5)">5</div>
+		<div id="boxitem6" class="box-item" onclick="check(6)">6</div>
+		<div id="boxitem7" class="box-item" onclick="check(7)">7</div>
+		<div id="boxitem8" class="box-item" onclick="check(8)">8</div>
+		<div id="boxitem9" class="box-item" onclick="check(9)">0</div>
+	</div>
+
+	<script>
+
+		// 开始, 打乱方格顺序.
+
+		// 洗牌算法
+
+		/** javascript
+
+		 * Fisher–Yates shuffle
+
+		 */
+		// Array 数组 [ 1 , 2 , 3 , 4 ]
+		Array.prototype.shuffle = function() {
+		    var input = this;
+
+		    for (var i = input.length-1; i >=0; i--) {
+
+		        var randomIndex = Math.floor(Math.random()*(i+1));
+		        var itemAtIndex = input[randomIndex];
+
+		        input[randomIndex] = input[i];
+		        input[i] = itemAtIndex;
+		    }
+		    return input;
+		}
+
+		function startGame(){
+
+			// array 数组 类型 的变量 boxItem
+			// 声明
+			// 变量var  常量let swift 中let不可二次修改 
+			var boxItem = [0,1,2,3,4,5,6,7,8] ;
+			// 数据类型之一 字符串 String Object对象 key键 value值
+			// 编程语言 swift html css javascript 
+			// var name = "Sean"
+
+			// bool 布尔值 true false
+			// boxItem = false 
+			boxItem.shuffle();
+
+			// 打印出来
+
+			console.log( boxItem );
+
+			var list = document.querySelectorAll('.box-item');
+
+			for ( var i = 0 ; i < list.length ; i++ ) {
+
+				// 当 此元素的值为0 把它的透明度改为0
+				if ( boxItem[i] == 0 ){
+					list[i].style.opacity = 0 ;
+					list[i].title = "我是空的" ;
+
+				}else{
+
+					list[i].style.opacity = 1 ;
+					list[i].title = "点击我换位置" ;
+				}
+
+				list[i].innerHTML = boxItem[i]
+			}			
+
+		}
+
+		// 初始化 = 实例化
+		// 分配内存
+		// 多种形态
+		// 复用
+		// var myExport = Export()
+		// var mySecondExport = Export()
+		// myExport.move() 
+            
+		// 点击数字方块, 数字方块跟相邻的空格交换位置.
+
+
+        // 给每个方格绑定一个点击事件.
+
+        // 检查 点击的方格能不能换位置
+        function check(number){
+        	// 打印当前的位置
+        	console.log(number)
+        	var currentItem = document.getElementById("boxitem"+number);
+        	// 打印这个位置上的元素
+        	console.log( currentItem )
+        	// 判断当前元素内的数字
+        	if ( currentItem.innerHTML == "0" ){
+        		return
+        	}else{
+        		// 判断四个方向能不能换位置
+        		var up = number - 3 ;
+        		checknum( up , currentItem )
+        		var down = number + 3 ;
+        		checknum( down, currentItem )
+        		var left = number - 1 ;
+        		checknum( left, currentItem )        		
+        		var right = number + 1 ;
+        		checknum( right, currentItem )
+        	}
+        }
+
+        // 目标位置能不能使用
+        function checknum( num , currentItem ){
+        	if ( num >= 1 && num <= 9 ){
+    			var tarItem  = document.getElementById("boxitem"+num);
+
+
+    			// 临时变量 用来帮助  当前元素 和 目标元素 交换位置
+    			var temp = tarItem.innerHTML
+
+    			if ( temp == "0" ){
+
+    				// alert("可以交换，目标位置:"+ num )
+    				// 把当前的元素
+	    			tarItem.innerHTML = currentItem.innerHTML ;
+	    			tarItem.style.opacity = 1 ;
+
+	    			currentItem.innerHTML = temp ;
+	    			currentItem.style.opacity = 0 ;
+
+	    			// 每一次交换位置之后 判定一下是否游戏结束
+	    			 if ( checkGameOver() ){
+	    			 	alert("success!");
+	    			 }
+    			}
+        	}
+        }
+
+        function checkGameOver(){
+
+        	var itemList = document.getElementsByClassName("box-item");
+
+        	for (var i = 0 ; i < itemList.length ; i++) {
+        		var item = itemList[ i ];
+        		var value = i + 1 ;
+        		console.log("value");
+        		console.log(value);
+
+        		// 最后一个是0
+        		if ( value < 9 ){
+	        		if ( item.innerHTML != value ) {
+	        			// 立即判定失败
+	        			return false;
+	        		}
+
+        		}
+
+        	}
+
+        	return true;
+        }
+
+
+        function change78(){
+        	var item7 = document.getElementById("boxitem7");
+        	var item8 = document.getElementById("boxitem8");
+        	var temp = item7.innerHTML;
+        	item7.innerHTML = item8.innerHTML;
+        	item8.innerHTML = temp
+        }
+
+
+
+
+
+        // 点击事件 需要执行一个 function.
+
+        // http://www.w3school.com.cn/css/index.asp
+
+        // 这个function 中判断 当前的方格 （event.target） 能不能与0的方格 换位置.
+
+        // 如果能 则换位置。如果不能则什么都不做.  
+
+		// 判定游戏是否结束, 12345678, 顺序排对了.
+
+        // Sean say: give a "kong xi" color.
+
+        // Sean say: want people name, they can PK "su du".
+
+	</script>
+
+</body>
+</html>
