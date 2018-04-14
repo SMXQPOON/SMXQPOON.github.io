@@ -33,7 +33,6 @@
 </head>
 <body>
 	<button onclick="startGame();">start</button>
-	<button onclick="change78();">7跟8换位置</button>
 	<div class="box">
 		<div id="boxitem1" class="box-item" onclick="check(1)">1</div>
 		<div id="boxitem2" class="box-item" onclick="check(2)">2</div>
@@ -77,7 +76,8 @@
 			// array 数组 类型 的变量 boxItem
 			// 声明
 			// 变量var  常量let swift 中let不可二次修改 
-			var boxItem = [0,1,2,3,4,5,6,7,8] ;
+			// 逆序数的奇偶性 
+			var boxItem = [1,2,3,4,5,6,7,8] ;
 			// 数据类型之一 字符串 String Object对象 key键 value值
 			// 编程语言 swift html css javascript 
 			// var name = "Sean"
@@ -89,6 +89,8 @@
 			// 打印出来
 
 			console.log( boxItem );
+
+			boxItem.push( 0 );
 
 			var list = document.querySelectorAll('.box-item');
 
