@@ -6,6 +6,7 @@
 		/*选择器 ：标签名 ，类 class，id ，派生 */
 		body{
 			/* 属性 ： 值 ；*/
+			margin: 0;
 			color: black;
             background-color: #FFC107;
 		}
@@ -28,11 +29,45 @@
             background-color: white;
             box-shadow: 3px 3px 10px 2px rgba(0,0,0,0.3);   
 	    }
+	    .mask {
+	    	position: fixed;
+	    	width: 100%;
+	    	height: 100%;
+	    	background-color: #FFC107;
+	    	top: 0;
+	    	display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99;
+	    }
+	    .start-button{
+	    	font-size: 500px;
+	    }
+	    .score-board{
+	    	position: absolute;
+	    	width: 100px;
+	    	height: 50px;
+	    	background-color: green;
+	    	left: 50px;
+	    	top: 50px;
+	    	color: white;
+	    		    	display: flex;
+            justify-content: center;
+            align-items: center;
+
+	    }
 
 	</style>
 </head>
 <body>
-	<button onclick="startGame();">start</button>
+<div class="mask">
+	<button class="start-button" onclick="startGame();">start</button>
+</div>
+
+	<div id="scoreBoard" class="score-board">
+		0分
+	</div>
+	
 	<div class="box">
 		<div id="boxitem1" class="box-item" onclick="check(1)">1</div>
 		<div id="boxitem2" class="box-item" onclick="check(2)">2</div>
@@ -46,6 +81,9 @@
 	</div>
 
 	<script>
+
+		// 定义一个变量记录步数
+		var scoreBoard = 0 ;
 
 		// 开始, 打乱方格顺序.
 
@@ -72,6 +110,10 @@
 		}
 
 		function startGame(){
+
+			// 隐藏mask
+
+			document.querySelector(".mask").style.display = "none";
 
 			// array 数组 类型 的变量 boxItem
 			// 声明
@@ -166,6 +208,11 @@
 
 	    			currentItem.innerHTML = temp ;
 	    			currentItem.style.opacity = 0 ;
+
+
+	    			scoreBoard = scoreBoard + 1;
+
+	    			document.querySelector("#scoreBoard").innerHTML = scoreBoard ;
 
 	    			// 每一次交换位置之后 判定一下是否游戏结束
 	    			 if ( checkGameOver() ){
